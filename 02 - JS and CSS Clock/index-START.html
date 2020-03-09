@@ -1,157 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>JS + CSS Clock</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>JS + CSS Clock</title>
-</head>
+	<body>
+		<div class="clock">
+			<div class="clock-face">
+				<div class="hand hour-hand"></div>
+				<div class="hand min-hand"></div>
+				<div class="hand second-hand"></div>
+			</div>
+		</div>
 
-<body>
+		<style>
+			html {
+				background: #018ded
+					url(http://unsplash.it/1500/1000?image=881&blur=5);
+				background-size: cover;
+				font-family: "helvetica neue";
+				text-align: center;
+				font-size: 10px;
+			}
 
+			body {
+				margin: 0;
+				font-size: 2rem;
+				display: flex;
+				flex: 1;
+				min-height: 100vh;
+				align-items: center;
+			}
 
-  <div class="clock">
-    <div class="clock-face">
-      <div class="hand hour-hand"></div>
-      <div class="hand min-hand"></div>
-      <div class="hand second-hand"></div>
-    </div>
-  </div>
+			.clock {
+				width: 30rem;
+				height: 30rem;
+				border: 20px solid white;
+				border-radius: 50%;
+				margin: 50px auto;
+				position: relative;
+				padding: 2rem;
+				box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
+					inset 0 0 0 3px #efefef, inset 0 0 10px black,
+					0 0 10px rgba(0, 0, 0, 0.2);
+			}
 
+			.clock-face {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				transform: translateY(-3px);
+				/* account for the height of the clock hands */
+			}
 
-  <style>
-    html {
-      background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=5);
-      background-size: cover;
-      font-family: 'helvetica neue';
-      text-align: center;
-      font-size: 10px;
-    }
+			.hand {
+				width: 50%;
+				height: 6px;
+				background: black;
+				position: absolute;
+				top: 50%;
+				transform-origin: 100%;
+				transform: rotate(90deg);
+				transition: all 0.5s;
+				transition-timing-function: cubic-bezier(0, 1.5, 0.18, 0.9);
+			}
 
-    body {
-      margin: 0;
-      font-size: 2rem;
-      display: flex;
-      flex: 1;
-      min-height: 100vh;
-      align-items: center;
-    }
+			.hour-hand {
+				left: 20%;
+				width: 30%;
+			}
 
-    .clock {
-      width: 30rem;
-      height: 30rem;
-      border: 20px solid white;
-      border-radius: 50%;
-      margin: 50px auto;
-      position: relative;
-      padding: 2rem;
-      box-shadow:
-        0 0 0 4px rgba(0, 0, 0, 0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0, 0, 0, 0.2);
-    }
+			.min-hand {
+				background: blue;
+			}
 
-    .clock-face {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-3px);
-      /* account for the height of the clock hands */
-    }
+			.second-hand {
+				background: red;
+			}
+		</style>
 
-    .hand {
-      width: 50%;
-      height: 6px;
-      background: black;
-      position: absolute;
-      top: 50%;
-      transform-origin: right;
-      /* transition: all 1s linear; */
-    }
+		<script>
+			const hourHand = document.querySelector(".hour-hand");
+			const minuteHand = document.querySelector(".min-hand");
+			const secondHand = document.querySelector(".second-hand");
+			let secRounds = 0;
+			let minRounds = 0;
+			let hourRounds = 0;
 
-    @keyframes rotate {
-      100% {
-        transform: rotateZ(360deg);
-      }
-    }
+			function updateTime() {
+				let hours = new Date().getHours();
+				let minutes = new Date().getMinutes();
+				let seconds = new Date().getSeconds();
 
-    .hour-hand {
-      left: 20%;
-      width: 30%;
-      animation: rotate 43200s infinite linear;
-    }
+				if (seconds == 0) secRounds += 1;
+				if (minutes == 0) minRounds += 1;
+				let secondsDeg = seconds * 6 + 90 + secRounds * 360;
+				let minutesDeg = minutes * 6 + 90 + minRounds * 360;
+				let hourDeg = hours * 15 + 90 + minRounds * 360;
 
-    .min-hand {
-      background: blue;
-      animation: rotate 3600s infinite steps(60);
-    }
+				secondHand.style.transform = `rotate(${secondsDeg}deg)`;
+				minuteHand.style.transform = `rotate(${minutesDeg}deg)`;
+				hourHand.style.transform = `rotate(${hourDeg}deg)`;
+				console.log(hours + " " + minutes + " " + seconds);
+			}
 
-    .second-hand {
-      background: red;
-      animation: rotate 60s infinite steps(60);
-    }
-  </style>
-
-  <script>
-
-    const hourHand = document.querySelector('.hour-hand')
-    const minuteHand = document.querySelector('.min-hand')
-    const secondHand = document.querySelector('.second-hand')
-
-    function updateTime() {
-      let hours = new Date().getHours();
-      let minutes = new Date().getMinutes();
-      let seconds = new Date().getSeconds();
-      console.log(hours + " " + minutes + ' ' + seconds);
-      
-
-      var hands = [
-        {
-          hand: 'hour-hand',
-          angle: (hours * 30) + (minutes / 2) + 90
-        },
-        {
-          hand: 'min-hand',
-          angle: (minutes * 6) + 90
-        },
-        {
-          hand: 'second-hand',
-          angle: (seconds * 6) + 90
-        }
-      ];
-
-      for (var j = 0; j < hands.length; j++) {
-        var elements = document.querySelectorAll('.' + hands[j].hand);
-        for (var k = 0; k < elements.length; k++) {
-          elements[k].style.webkitTransform = 'rotateZ(' + hands[j].angle + 'deg)';
-          elements[k].style.transform = 'rotateZ(' + hands[j].angle + 'deg)';
-          // If this is a minute hand, note the seconds position (to calculate minute position later)
-          if (hands[j].hand === 'minutes') {
-            elements[k].parentNode.setAttribute('data-second-angle', hands[j + 1].angle);
-          }
-        }
-      }
-
-
-      // secondHand.style.transform = `rotateZ(${(seconds + 15) * 6}deg)`;
-
-      // hourHand.style.transform = 'rotateZ(90deg)';
-      // if(seconds == 0) {
-      //   
-      // } else {
-      //   secondHand.style.transform = `rotateZ(${(seconds + 15) * 6}deg)`;
-      // }
-
-      // console.log('Time is: ' + hour + ":" + minutes + ":" + seconds);
-    }
-
-    updateTime();
-
-    // setInterval(updateTime, 1000)
-
-
-
-  </script>
-</body>
-
+			setInterval(updateTime, 1000);
+		</script>
+	</body>
 </html>
