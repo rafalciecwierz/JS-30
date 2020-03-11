@@ -75,6 +75,7 @@
 
 			.toggle {
 				flex: 4;
+				font-size: 30px;
 			}
 
 			/* Flex Children */
@@ -92,8 +93,24 @@
 				font-size: 2em;
 			}
 
+			.panel p:nth-child(1) {
+				transform: translateY(-200px);
+				transition-delay: 0.8s;
+			}
+
 			.panel p:nth-child(2) {
 				font-size: 4em;
+			}
+			.panel p:nth-child(3) {
+				transform: translateY(200px);
+				transition-delay: 0.8s;
+			}
+
+			.toggle p:nth-child(1) {
+				transform: translateY(0px);
+			}
+			.toggle p:nth-child(3) {
+				transform: translateY(0px);
 			}
 
 			.panel.open {
