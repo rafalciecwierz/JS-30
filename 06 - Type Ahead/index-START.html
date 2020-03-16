@@ -24,13 +24,27 @@
 				})
 				.then(data => {
 					input.addEventListener("input", () => {
-						const filteredArray = data.filter(cityObject =>
-							cityObject.city.includes(input.value)
+						const filteredArray = data.filter(
+							cityObject =>
+								cityObject.city.includes(input.value) ||
+								cityObject.state.includes(input.value)
 						);
 						let htmlCode = "";
 						filteredArray.forEach(city => {
+							htmlCode += "<li><span>";
 							const split = city.city.split(input.value);
-							htmlCode += `<li><span>${split[0]}<span class="hl">${input.value}</span>${split[1]}</span><span class="population">${city.population}</span></li>`;
+							if (split.length === 2) {
+								htmlCode += `${split[0]}<span class="hl">${input.value}</span>${split[1]}`;
+							} else {
+								htmlCode += `${split[0]}`;
+							}
+							const splitState = city.state.split(input.value);
+							if (splitState.length === 2) {
+								htmlCode += `, ${splitState[0]}<span class="hl">${input.value}</span>${splitState[1]}`;
+							} else {
+								htmlCode += `, ${splitState[0]}`;
+							}
+							htmlCode += `</span><span class="population">${city.population}</span></li>`;
 						});
 						if (input.value) list.innerHTML = htmlCode;
 						else list.innerHTML = "";
