@@ -11,12 +11,31 @@
 			<ul class="suggestions">
 				<li>Filter for a city</li>
 				<li>or a state</li>
-				<li>Siemanko</li>
 			</ul>
 		</form>
 		<script>
 			const endpoint =
 				"https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+			const input = document.querySelector(".search");
+			const list = document.querySelector(".suggestions");
+			fetch(endpoint)
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					input.addEventListener("input", () => {
+						const filteredArray = data.filter(cityObject =>
+							cityObject.city.includes(input.value)
+						);
+						let htmlCode = "";
+						filteredArray.forEach(city => {
+							const split = city.city.split(input.value);
+							htmlCode += `<li><span>${split[0]}<span class="hl">${input.value}</span>${split[1]}</span><span class="population">${city.population}</span></li>`;
+						});
+						if (input.value) list.innerHTML = htmlCode;
+						else list.innerHTML = "";
+					});
+				});
 		</script>
 	</body>
 </html>
