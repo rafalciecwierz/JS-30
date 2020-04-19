@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: "Abhaya Libre", serif;
 }
 body {
     background-color: #22b4aa;
@@ -12,6 +13,78 @@ body {
     margin: 2rem auto;
     background-color: #fff;
     border-radius: 30px;
-    padding: 2rem;
+    padding: 4rem;
     box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.heading {
+    display: inline-block;
+    padding: 2rem;
+    border-radius: 30px;
+    box-shadow: -4px 4px 0 black, 4px -4px 0 #eb2e64;
+}
+
+.heading__text {
+    font-size: 40px;
+    line-height: 1;
+}
+.heading__text--big {
+    display: block;
+    line-height: 0.6;
+    font-size: 110px;
+}
+
+.description {
+    font-size: 36px;
+    margin: 2rem 0;
+    font-weight: 400;
+}
+.description__link {
+    border-radius: 10px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #eb2e64;
+    transition: all 0.4s;
+}
+.description__link::before {
+    content: "⟶ ";
+    padding-right: 1rem;
+}
+.description__link:hover {
+    background-color: #22b4aa;
+    color: #fff;
+    padding: 0 0.5rem;
+}
+
+.toc {
+    display: inline-block;
+    padding: 1rem;
+    border-radius: 15px;
+    font-size: 36px;
+    box-shadow: -4px 4px 0 black;
+    margin: 1rem 0;
+}
+
+.list {
+    width: 60%;
+    border-radius: 30px;
+    font-size: 36px;
+    box-shadow: -4px -4px 0 #eb2e64;
+    padding: 1rem 4rem;
+}
+
+.list__link,
+.list__link:visited,
+.list__link:link {
+    border-radius: 15px;
+    text-decoration: none;
+    color: #000;
+    padding: 0 5px;
+    transition: 0.4s all;
+}
+
+.list__link:hover {
+    padding: 0 10px;
+    background-color: #afdcd8;
 }
