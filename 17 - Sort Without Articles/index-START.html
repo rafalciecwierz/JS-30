@@ -1,55 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sort Without Articles</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Sort Without Articles</title>
+	</head>
+	<body>
+		<style>
+			body {
+				margin: 0;
+				font-family: sans-serif;
+				background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+				background-size: cover;
+				display: flex;
+				align-items: center;
+				min-height: 100vh;
+			}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      min-height: 100vh;
-    }
+			#bands {
+				list-style: inside square;
+				font-size: 20px;
+				background: white;
+				width: 500px;
+				margin: auto;
+				padding: 0;
+				box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+			}
 
-    #bands {
-      list-style: inside square;
-      font-size: 20px;
-      background: white;
-      width: 500px;
-      margin: auto;
-      padding: 0;
-      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-    
-    #bands li {
-      border-bottom: 1px solid #efefef;
-      padding: 20px;
-    }
-    
-    #bands li:last-child {
-      border-bottom: 0;
-    }
+			#bands li {
+				border-bottom: 1px solid #efefef;
+				padding: 20px;
+			}
 
-    a {
-      color: #ffc600;
-      text-decoration: none;
-    }
+			#bands li:last-child {
+				border-bottom: 0;
+			}
 
-  </style>
+			a {
+				color: #ffc600;
+				text-decoration: none;
+			}
+		</style>
 
-  <ul id="bands"></ul>
+		<ul id="bands"></ul>
 
-<script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+		<script>
+			const bands = [
+				"The Plot in You",
+				"The Devil Wears Prada",
+				"Pierce the Veil",
+				"Norma Jean",
+				"The Bled",
+				"Say Anything",
+				"The Midway State",
+				"We Came as Romans",
+				"Counterparts",
+				"Oh, Sleeper",
+				"A Skylit Drive",
+				"Anywhere But Here",
+				"An Old Dog",
+			];
+			const bandlist = document.querySelector("#bands");
 
+			// Clever solution (if u know RegEx xD)
+			function strip(bandName) {
+				return bandName.replace(/^(a |an |the )/i, "").trim();
+			}
 
-</script>
+			const newBetterBands = bands.sort((a, b) =>
+				strip(a) > strip(b) ? 1 : -1
+			);
 
-</body>
+			console.log(newBetterBands);
+
+			// WOW THIS IS SOOOOO NOT NICE XD
+			function compareBandTitles(first, second) {
+				let newFirst = first;
+				let newSecond = second;
+				if (first.includes("The ")) {
+					newFirst = first.slice(4);
+				} else if (first.includes("An ")) {
+					newFirst = first.slice(3);
+				} else if (first.includes("A ")) {
+					newFirst = first.slice(2);
+				}
+				if (second.includes("The ")) {
+					newSecond = second.slice(4);
+				} else if (second.includes("An ")) {
+					newSecond = second.slice(3);
+				} else if (second.includes("A ")) {
+					newSecond = second.slice(2);
+				}
+				if (newFirst < newSecond) return -1;
+				else if (newFirst > newSecond) return 1;
+				else return 0;
+			}
+			const newBands = bands.sort(compareBandTitles);
+			console.log(newBands);
+			bandlist.innerHTML = newBands
+				.map((band) => {
+					return `
+          <li>${band}</li>
+        `;
+				})
+				.join(" ");
+		</script>
+	</body>
 </html>
